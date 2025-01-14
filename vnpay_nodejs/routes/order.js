@@ -34,7 +34,8 @@ router.get('/', function(req, res, next){
 });
 
 router.get('/create_payment_url', function (req, res, next) {
-    res.render('order', {title: 'Tạo mới đơn hàng', amount: 10000})
+    const {amount,email,idProduct} = req.query;
+    res.render('order', {title: 'Tạo mới đơn hàng', amount: amount})
 });
 
 router.get('/querydr', function (req, res, next) {
@@ -128,8 +129,7 @@ router.get('/vnpay_return', function (req, res, next) {
     let signed = hmac.update(new Buffer(signData, 'utf-8')).digest("hex");     
 
     if(secureHash === signed){
-        //Kiem tra xem du lieu trong db co hop le hay khong va thong bao ket qua
-
+                
         res.render('success', {code: vnp_Params['vnp_ResponseCode']})
     } else{
         res.render('success', {code: '97'})
